@@ -31,7 +31,7 @@ module.exports = (robot) ->
     child.stdout.on 'data', (data) ->
       msg.send data
 
-  robot.respond /ansible\s+me\s+(.+)/i, (msg) ->
+  robot.respond /ansible\s+me\s+(.+)/i, id: 'respond.ansible-me', (msg) ->
     command = msg.match[1]
 
     runAnsiblePlaybook msg, command
