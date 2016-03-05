@@ -28,8 +28,20 @@ module.exports = (robot) ->
 
     child = shell.exec "cd #{ansiblePath} && #{command}", { async: true }
 
+    buffered = ""
+    sendHandler = setInterval () -> 
+      msg.send buffered
+      buffered = ""
+    , 500
+
     child.stdout.on 'data', (data) ->
-      msg.send data
+      buffered += data
+
+    child.stderr.on 'data', (data) ->
+      msg.send "ERROR: #{data}"
+
+    child.on 'exit', (code, signal) ->
+      clearInterval sendHandler
 
   robot.respond /ansible\s+me\s+(.+)/i, id: 'respond.ansible-me', (msg) ->
     command = msg.match[1]
