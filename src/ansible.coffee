@@ -35,12 +35,10 @@ module.exports = (robot) ->
     , 500
 
     child.stdout.on 'data', (data) ->
-      buffered += "stdout: #{data}"
-      # buffered += data
+      buffered += data
 
     child.stderr.on 'data', (data) ->
-      msg.send "stderr: #{data}"
-      # msg.send data
+      msg.send data
 
     child.on 'exit', (code, signal) ->
       clearInterval sendHandler
