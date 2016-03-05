@@ -42,6 +42,7 @@ module.exports = (robot) ->
 
     child.on 'exit', (code, signal) ->
       clearInterval sendHandler
+      msg.send 'Finished.'
 
   robot.respond /ansible\s+me\s+(.+)/i, id: 'respond.ansible-me', (msg) ->
     command = msg.match[1]
