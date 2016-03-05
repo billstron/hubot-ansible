@@ -29,8 +29,8 @@ module.exports = (robot) ->
     child = shell.exec "cd #{ansiblePath} && #{command}", { async: true }
 
     buffered = ""
-    sendHandler = setInterval () -> 
-      msg.send buffered
+    sendHandler = setInterval () ->
+      msg.send buffered if buffered.length > 0
       buffered = ""
     , 500
 
@@ -38,7 +38,7 @@ module.exports = (robot) ->
       buffered += data
 
     child.stderr.on 'data', (data) ->
-      msg.send "ERROR: #{data}"
+      msg.send data
 
     child.on 'exit', (code, signal) ->
       clearInterval sendHandler
