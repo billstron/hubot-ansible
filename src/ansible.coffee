@@ -24,6 +24,7 @@ module.exports = (robot) ->
 
   runAnsiblePlaybook = (msg, command) ->
     command = ['ansible-playbook', command].join(' ')
+    command.replace "\u2014", "--"
     msg.send "Running `#{command}`"
 
     child = shell.exec "cd #{ansiblePath} && #{command}", { async: true }
